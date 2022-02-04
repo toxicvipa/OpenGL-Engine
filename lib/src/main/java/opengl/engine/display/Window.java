@@ -8,6 +8,7 @@ import org.lwjgl.opengl.GL;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.system.MemoryUtil;
 
+import opengl.engine.io.KeyListener;
 import opengl.engine.io.MouseListener;
 
 public class Window {
@@ -63,6 +64,7 @@ public class Window {
 		GLFW.glfwSetMouseButtonCallback(glfwWindow, MouseListener::mouseButtonCallback);
 		GLFW.glfwSetCursorPosCallback(glfwWindow, MouseListener::mousePosCallback);
 		GLFW.glfwSetScrollCallback(glfwWindow, MouseListener::mouseScrollCallback);
+		GLFW.glfwSetKeyCallback(glfwWindow, KeyListener::keyCallback);
 		
 		// Make the context current
 		GLFW.glfwMakeContextCurrent(glfwWindow);

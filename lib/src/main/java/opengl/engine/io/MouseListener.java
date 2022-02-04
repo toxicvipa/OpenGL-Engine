@@ -85,7 +85,7 @@ public class MouseListener {
 	
 	public boolean isPressed(int button) {
 		MouseListener instance = getInstance();
-		return (button < instance.buttons.length && button >= 0) ? instance.buttons[button] : false;
+		return button < instance.buttons.length && button >= 0 && instance.buttons[button];
 	}
 	
 	public static MouseListener getInstance() {
