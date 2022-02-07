@@ -1,9 +1,12 @@
 package opengl.engine.renderer;
 
 import java.io.IOException;
+import java.nio.FloatBuffer;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
+import org.joml.Matrix4f;
+import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL20;
 
@@ -106,6 +109,13 @@ public class Shader {
 	
 	public void detach() {
 		GL20.glUseProgram(0);
+	}
+	
+	public void uploadMat4f(String varName, Matrix4f mat4) {
+		int varLocation = GL20.glGetUniformLocation(shaderProgramID, varName);
+		FloatBuffer matBuffer = BufferUtils.createFloatBuffer(16);
+		mat4.get(matBuffer);
+		GL20.glUniformMatrix4fv(varLocation, false, matBuffer);
 	}
 	
 }

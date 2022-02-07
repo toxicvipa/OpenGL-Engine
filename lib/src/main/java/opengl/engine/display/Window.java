@@ -26,7 +26,7 @@ public class Window {
 	private int width, height;
 	private String title;
 	private long glfwWindow;
-	private float TPS = 30.0f;
+	private float TPS = 60.0f;
 	private float FPS = 60.0f;
 	
 	private static Window INSTANCE;

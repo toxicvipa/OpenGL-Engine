@@ -14,9 +14,10 @@ public class SceneManager {
 	private float secondsBlack = 0.5f;
 	private float transitionProgress = 0.0f;
 	private float fadeAlpha = 0.0f;
+	private boolean initialized = false;
 	
 	private SceneManager() {
-		
+		currentScene.init();
 	}
 	
 	public void tick(float dt) {
@@ -25,12 +26,18 @@ public class SceneManager {
 			if(transitionProgress >= secondsForTransition + secondsBlack) {
 				changingScene = false;
 				transitionProgress = 0.0f;
-				currentScene = newScene;
-				newScene = null;
+				initialized = false;
+				return;
 			}
 			if(transitionProgress <= secondsForTransition / 2) {
 				fadeAlpha = 1.0f - Math.abs(transitionProgress - secondsForTransition / 2f) / (secondsForTransition / 2f);
 			} else if(transitionProgress <= secondsForTransition / 2 + secondsBlack) {
+				if(!initialized) {
+					currentScene = newScene;
+					newScene = null;
+					currentScene.init();
+					initialized = true;
+				}
 				fadeAlpha = 1.0f;
 			} else {
 				fadeAlpha = 1.0f - Math.abs(transitionProgress - secondsBlack - secondsForTransition / 2f) / (secondsForTransition / 2f);
@@ -41,6 +48,7 @@ public class SceneManager {
 	}
 	
 	public void render() {
+		currentScene.render();
 		GL11.glColor4f(0.0f, 0.0f, 0.0f, fadeAlpha);
 		GL11.glRectf(-1f, -1f, 1f, 1f);
 	}
