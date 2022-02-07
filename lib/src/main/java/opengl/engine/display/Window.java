@@ -1,5 +1,7 @@
 package opengl.engine.display;
 
+import java.awt.Toolkit;
+
 import org.lwjgl.Version;
 import org.lwjgl.glfw.Callbacks;
 import org.lwjgl.glfw.GLFW;
@@ -16,6 +18,11 @@ import opengl.engine.util.Time;
 
 public class Window {
 
+	private static final int MAX_WIDTH = 2560;
+	private static final int MAX_HEIGHT = 1440;
+	private static final int MIN_WIDTH = 1024;
+	private static final int MIN_HEIGHT = 576;
+	
 	private int width, height;
 	private String title;
 	private long glfwWindow;
@@ -25,8 +32,8 @@ public class Window {
 	private static Window INSTANCE;
 	
 	private Window() {
-		width = 1920;
-		height = 1200;
+		width = MIN_WIDTH;
+		height = MIN_HEIGHT;
 		title = "Engine";
 	}
 	
@@ -58,10 +65,13 @@ public class Window {
 		GLFW.glfwDefaultWindowHints();
 		GLFW.glfwWindowHint(GLFW.GLFW_VISIBLE, GLFW.GLFW_FALSE);
 		GLFW.glfwWindowHint(GLFW.GLFW_RESIZABLE, GLFW.GLFW_TRUE);
-		GLFW.glfwWindowHint(GLFW.GLFW_MAXIMIZED, GLFW.GLFW_TRUE);
+		GLFW.glfwWindowHint(GLFW.GLFW_MAXIMIZED, GLFW.GLFW_FALSE);
 		
 		// Create window
 		glfwWindow = GLFW.glfwCreateWindow(width, height, title, MemoryUtil.NULL, MemoryUtil.NULL);
+		GLFW.glfwSetWindowSizeLimits(glfwWindow, MIN_WIDTH, MIN_HEIGHT, MAX_WIDTH, MAX_HEIGHT);
+		GLFW.glfwSetWindowAspectRatio(glfwWindow, 16, 9);
+		GLFW.glfwSetWindowPos(glfwWindow,Toolkit.getDefaultToolkit().getScreenSize().width / 2 - width / 2, Toolkit.getDefaultToolkit().getScreenSize().height / 2 - height / 2);
 		if(glfwWindow == MemoryUtil.NULL) {
 			throw new IllegalStateException("Failed to create window");
 		}
@@ -86,6 +96,8 @@ public class Window {
 	}
 	
 	private void windowResizeCallback(long window, int width, int height) {
+		this.width = width;
+		this.height = height;
 		GL11.glViewport(0, 0, width, height);
 		GL11.glScissor(0, 0, width, height);
 	}
