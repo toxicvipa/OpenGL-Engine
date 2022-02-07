@@ -42,14 +42,7 @@ public class SceneManager {
 	
 	public void render() {
 		GL11.glColor4f(0.0f, 0.0f, 0.0f, fadeAlpha);
-		GL11.glBegin(GL11.GL_TRIANGLES);
-		GL11.glVertex2f(-1f, -1f);
-		GL11.glVertex2f(-1f, 1f);
-		GL11.glVertex2f(1f, -1f);
-		GL11.glVertex2f(1f, -1f);
-		GL11.glVertex2f(-1f, 1f);
-		GL11.glVertex2f(1f, 1f);
-		GL11.glEnd();
+		GL11.glRectf(-1f, -1f, 1f, 1f);
 	}
 	
 	public void setScene(Scene newScene) {

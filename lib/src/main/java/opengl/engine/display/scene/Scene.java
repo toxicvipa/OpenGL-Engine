@@ -6,6 +6,7 @@ public abstract class Scene {
 		
 	}
 	
+	public abstract void init();
 	public abstract void tick(float dt);
 	public abstract void render();
 
